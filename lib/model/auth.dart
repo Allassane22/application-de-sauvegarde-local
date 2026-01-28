@@ -1,8 +1,10 @@
+import 'package:first_app_ath/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   static const String _authkey = 'is_logged_in';
   static const String _nameKey = 'user_name';
+  static const String _userKey = 'saved_user';
 
   //variable privé qui stock l'instance
   static SharedPreferences? _prefs;
@@ -10,6 +12,11 @@ class AuthService {
   //Méthode pour initialiser l'instance une seul fois
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
+  }
+
+  //Méthode pour enregistré un nouveau utilisateur
+  Future<void> savedUser(User user) async {
+    await _prefs!.setString(_userKey, user.toJson());
   }
 
   //connexion
@@ -23,7 +30,6 @@ class AuthService {
   //Déconnexion
   Future<void> logout() async {
     await _prefs?.remove(_authkey);
-    
     await _prefs?.remove(_nameKey);
   }
 
@@ -35,5 +41,14 @@ class AuthService {
   //récupérer le nom de l'utilisateur connecté
   String getUserName() {
     return _prefs?.getString(_nameKey) ?? "utilisateur";
+  }
+
+  //Récuperer le User complet s'il existe
+  User? getSavedUser() {
+    String? userJson = _prefs!.getString(_userKey);
+    if (userJson != null) {
+      return User.fromJson(userJson);
+    }
+    return null;
   }
 }

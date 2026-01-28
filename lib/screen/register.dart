@@ -1,22 +1,22 @@
 import 'package:first_app_ath/components/MyButton.dart';
 import 'package:first_app_ath/components/TextField.dart';
 import 'package:first_app_ath/core/color.dart';
-import 'package:first_app_ath/function/Connection.dart';
-import 'package:first_app_ath/screen/register.dart';
+import 'package:first_app_ath/function/inscription.dart';
+import 'package:first_app_ath/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   final userNameControlleur = TextEditingController();
   final userPasswordControlleur = TextEditingController();
-
+  final userConfirmPasswordControlleur = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
                   ),
 
                   Text(
-                    "Se connecter",
+                    "s'inscrire",
                     style: GoogleFonts.montserrat(
                       fontSize: 30,
                       fontWeight: FontWeight.w900,
@@ -81,28 +81,23 @@ class _LoginState extends State<Login> {
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            "Mot de passe oublé?",
-                            style: TextStyle(color: Colors.blue.shade800),
-                          ),
-                        ),
-                      ],
+                    child: Textfield(
+                      hintText: "Confirm mots de passe utilisateur",
+                      obscuredText: true,
+                      prefixIcon: Icon(Icons.lock),
+                      controller: userConfirmPasswordControlleur,
                     ),
                   ),
 
                   SizedBox(height: 30),
 
                   Mybutton(
-                    text: "Se connecter",
+                    text: "s'inscrire",
                     onTap: () {
-                      connexion(
+                      inscription(
                         userNameControlleur,
                         userPasswordControlleur,
+                        userConfirmPasswordControlleur,
                         context,
                       );
                     },
@@ -118,21 +113,19 @@ class _LoginState extends State<Login> {
                     child: Row(
                       children: [
                         Text(
-                          "Not a member?",
+                          "Vous avez déjà un compte ?",
                           style: TextStyle(color: Colors.grey[700]),
                         ),
                         SizedBox(width: 4),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => Register(),
-                              ),
+                              MaterialPageRoute(builder: (context) => Login()),
                             );
                           },
                           child: Text(
-                            "Register me",
+                            "connectez-vous ici",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.blue,
@@ -149,5 +142,6 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+    ;
   }
 }

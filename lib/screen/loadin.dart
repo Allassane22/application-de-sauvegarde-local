@@ -1,7 +1,4 @@
-import 'package:first_app_ath/model/auth.dart';
-import 'package:first_app_ath/screen/Home.dart';
-import 'package:first_app_ath/screen/login.dart';
-
+import 'package:first_app_ath/function/prepare_and_navigate.dart';
 import 'package:first_app_ath/core/color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,28 +15,7 @@ class _LoadingState extends State<Loading> {
     super.initState();
 
     //Fonction aasynchrone
-    Future<void> _navigateToNext() async {
-      //On attend que sharedPreferences soit prêt
-      await AuthService.init();
-
-      //On récupère l'instance de Service
-      final authService = AuthService();
-
-      //on vérifie si l'utilisateur est connecté
-      bool isConnected = await authService.isLoggedIn();
-
-      if (context.mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => isConnected ? Home() : Login(),
-          ),
-        );
-      }
-    }
-
-    //Appel de la fonction
-    _navigateToNext();
+    prepareAndNavigate(context);
   }
 
   @override
